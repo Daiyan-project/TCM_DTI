@@ -1,0 +1,50 @@
+https://github.com/undeadpixel/reinvent-scaffold-decorator
+
+source ~/.bashrc
+
+conda activate reinvent-scaffold-decorator
+cd reinvent-scaffold-decorator-master/swap
+
+sudo swapon swapfile
+
+mkdir -p TCM_decorator/models
+./slice_db.py -i training_sets/TCM_chembl_filtered.smi.gz -u TCM_decorator/TCM_chembl_filtered.hr.smi -s hr -f TCMconditions.json
+./create_randomized_smiles.py -i TCM_decorator/TCM_chembl_filtered.hr.smi -o TCM_decorator/training -n 50 -d multi
+./create_model.py -i TCM_decorator/training/001.smi -o TCM_decorator/models/model.empty -d 0.2
+./train_model.py -i TCM_decorator/models/model.empty -o TCM_decorator/models/model.trained -s TCM_decorator/training -e 50 -b 128
+导出全部骨架成smi文件在工作目录
+
+spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_1.smi -o TCM_decorator/generated_molecules_1.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_2.smi -o TCM_decorator/generated_molecules_2.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_3.smi -o TCM_decorator/generated_molecules_3.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_4.smi -o TCM_decorator/generated_molecules_4.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_5.smi -o TCM_decorator/generated_molecules_5.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_6.smi -o TCM_decorator/generated_molecules_6.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_7.smi -o TCM_decorator/generated_molecules_7.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_8.smi -o TCM_decorator/generated_molecules_8.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_9.smi -o TCM_decorator/generated_molecules_9.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_10.smi -o TCM_decorator/generated_molecules_10.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_11.smi -o TCM_decorator/generated_molecules_11.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_12.smi -o TCM_decorator/generated_molecules_12.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/intersection_result_13.smi -o TCM_decorator/generated_molecules_13.csv -r 16 -n 16 -d multi
+
+
+
+spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/9334_intersec_scaffold_onlymodelscaffold.smi -o TCM_decorator/9334/generated_molecules.csv -r 16 -n 16 -d multi
+
+./slice_db.py -i training_sets/9334.smi.gz -u TCM_decorator/source_valid_onlysmiles.hr.smi -s hr -f TCMconditions.json
+
+spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/9334_intersec_scaffold_onlymodelscaffold_part_1.smi -o TCM_decorator/9334/generated_molecules_part_1.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/9334_intersec_scaffold_onlymodelscaffold_part_2.smi -o TCM_decorator/9334/generated_molecules_part_2.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/9334_intersec_scaffold_onlymodelscaffold_part_3.smi -o TCM_decorator/9334/generated_molecules_part_3.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/9334_intersec_scaffold_onlymodelscaffold_part_4.smi -o TCM_decorator/9334/generated_molecules_part_4.csv -r 16 -n 16 -d multi && spark-submit --driver-memory=12g sample_scaffolds.py -m TCM_decorator/models/model.trained.50 -i TCM_decorator/9334_intersec_scaffold_onlymodelscaffold_part_5.smi -o TCM_decorator/9334/generated_molecules_part_5.csv -r 16 -n 16 -d multi
+
+
+
+
+
+
+
+pip cache purge
+
+nvcc -V
+
+import findspark
+findspark.init()
+
+chmod 777 * -R
+
+>>> import torch
+>>> print("Is CUDA enabled?",torch.cuda.is_available())
+
+
+export PATH="/home/username/miniconda3/bin:$PATH"
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+
+set JAVA_OPTS=-server -Xms20g -Xmx20g

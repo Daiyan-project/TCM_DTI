@@ -1,0 +1,19 @@
+name: reinvent-scaffold-decorator
+channels:
+  - pytorch
+  - defaults
+  - rdkit
+  - conda-forge
+dependencies:
+  - python=3.10
+  - rdkit
+  - tqdm
+  - scipy
+  - matplotlib
+  - findspark
+  - pyspark
+  - pandas
+  - pip
+  - pip:
+    - future
+    - tensorboard
